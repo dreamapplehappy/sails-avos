@@ -14,6 +14,24 @@ module.exports = {
 		// req.session.flash = {};
 	},
 
+	'login': function(req, res){
+		res.view();
+	},
+
+	'handleLogin': function(req, res, next){
+		var username = req.param('name');
+		var password = req.param('password');
+		AV.User.logIn(username, password, {
+			success: function(user) {
+				console.log("login success");
+				res.redirect('/user/show/' + username);
+			},
+			error: function(user, error) {
+				console.log("login failed");
+			}
+		});
+	},
+
 	create: function(req, res, next){
 		var username = req.param('name');
 		var email = req.param('email');
@@ -34,14 +52,24 @@ module.exports = {
 	},
 
 	show: function(req, res, next) {
-		User.findOne(req.param('id'), function foundUser (err, user) {
+		/*User.findOne(req.param('id'), function foundUser (err, user) {
 			if(err) return next(err);
 			if(!user) return next();
 
 			res.view({
 				user: user
 			});
-		});
+		});*/
+		var currentUser = AV.User.current();
+		if (currentUser) {
+			console.log(currentUser.attributes);
+			res.view({
+				user: currentUser.attributes
+			});
+		} 
+		else {
+			console.log("show error!");
+		}
 	},
 
 	index: function(req, res, next) {
