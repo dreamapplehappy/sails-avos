@@ -6,65 +6,91 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var AV = require('avoscloud-sdk').AV;
-AV.initialize("h8cw946t7vsf9rl7ej229sdexqd2yq2x40wa7nwrazl25piw", "q843hrk31sl3tl3fkdoll85iwm0lwihwjhozgj1pg8tk3kay");
+AV.initialize("b7747uhilejmtsyfgobccj8vhhrevwja5awh8lh3pt0fg5fr", "7sl5pumuxsly3tlbjifv2acjddilu7vzrwg67u8hqxd927hd");
+var Group = AV.Object.extend("Group");
+
+
 module.exports = {
-	'new': function(req, res){
-		// res.locals.flash = _.clone(req.session.flash);
+
+	index: function(req, res, next) {
 		res.view();
-		// req.session.flash = {};
+	},
+
+	'new': function(req, res){
+		res.view();
 	},
 
 	'login': function(req, res){
 		res.view();
 	},
 
+	'logout': function(req, res){
+		AV.User.logOut();
+		var currentUser = AV.User.current();
+		res.redirect("/user/");
+	},
+
 	'handleLogin': function(req, res, next){
-		var username = req.param('name');
+		var username = req.param('username');
 		var password = req.param('password');
+		console.log(username+"---"+password);
 		AV.User.logIn(username, password, {
 			success: function(user) {
 				console.log("login success");
 				res.redirect('/user/show/' + username);
 			},
 			error: function(user, error) {
-				console.log("login failed");
+				console.log(error);
 			}
 		});
 	},
 
 	create: function(req, res, next){
-		var username = req.param('name');
+		var co = req.param('co');
+		var username = req.param('username');
+		var phone = req.param('phone');
 		var email = req.param('email');
-		var user = new AV.User();
-		user.set("username", username);
-		user.set("password", "my pass");
-		user.set("email", email);
-		user.set("phone", "415-392-0000");
+		var password = req.param('password');
 
-		user.signUp(null, {
-			success: function(user) {
-				console.log("user create success!");
+		var user = new AV.User();
+		var group = new Group();
+
+		group.set("name",co);
+		user.set("username",username);
+		user.set("mobilePhoneNumber",phone);
+		user.set("email",email);
+		user.set("password",password);
+
+		group.save(null, {
+			success: function(group) {
+				console.log('New object created with objectId: ' + group.id);
+				user.set("groupId",group.id);
+				user.signUp(null, {
+					success: function(user) {
+						console.log(user);
+						group.set("parentGroupId",group.id);
+						group.set("rootGroupId",group.id);
+						group.set("userId",user.id);
+						group.save();
+						res.redirect("/user/show/"+user.username);
+					},
+					error: function(user, error) {
+						console.log("Error: " + error.code + " " + error.message);
+					}
+				});
 			},
-			error: function(user, error) {
-				console.log("Error: " + error.code + " " + error.message);
+			error: function(group, error) {
+				console.log('Failed to create new object, with error code: ' + error.message);
 			}
 		});
 	},
 
 	show: function(req, res, next) {
-		/*User.findOne(req.param('id'), function foundUser (err, user) {
-			if(err) return next(err);
-			if(!user) return next();
-
-			res.view({
-				user: user
-			});
-		});*/
 		var currentUser = AV.User.current();
 		if (currentUser) {
-			console.log(currentUser.attributes);
 			res.view({
-				user: currentUser.attributes
+				user: currentUser.attributes,
+				currentUser:currentUser.attributes
 			});
 		} 
 		else {
@@ -72,31 +98,11 @@ module.exports = {
 		}
 	},
 
-	index: function(req, res, next) {
-		var query = new AV.Query("TestObject");
-		query.equalTo("foo","bar");
-		query.find({
-			success: function(results) {
-				console.log("Successfully retrieved " + results.length + " scores.");
-				res.view({
-					results: results
-				});
-			},
-			error: function(error) {
-				console.log("Error: " + error.code + " " + error.message);
-			}
-		});
-	},
-
 	edit: function(req, res, next) {
-		User.findOne(req.param('id'), function foundUser (err, user) {
-			if(err) return next(err);
-			if(!user) return next('用户不存在！');
-
-			res.view({
-				user: user
-			});
-		});
+		console.log("----------------");
+		console.log(req.session);
+		console.log("----------------");
+		res.view();
 	},
 
 	update: function(req, res, next) {

@@ -1,15 +1,17 @@
 <form action="/user/create" method="POST" class="form-signin">
 	<h2 class="form-signin-heading">Create an account</h2>
 
-	<input type="text" class="form-control" placeholder="your name" name="name">
+	<input type="text" class="form-control" placeholder="公司名称" name="co">
 	<br>
-	<input type="text" class="form-control" placeholder="your title" name="title">
+	<input type="text" class="form-control" placeholder="用户名" name="username">
 	<br>
-	<input type="text" class="form-control" placeholder="your email" name="email">
+	<input type="text" class="form-control" placeholder="电话" name="phone">
 	<br>
-	<input type="password" class="form-control" placeholder="your password" name="password" id="password">
+	<input type="text" class="form-control" placeholder="邮件" name="email">
 	<br>
-	<input type="password" class="form-control" placeholder="confirmation password" name="confirmation">
+	<input type="password" class="form-control" placeholder="你的密码" name="password">
+	<br>
+	<input type="password" class="form-control" placeholder="重复密码" name="confirmation">
 
 	<input type="submit" class="btn btn-lg btn-primary btn-block" value="Create Account"/>
 	<input type="hidden" name="_csrf" value="<%= _csrf %>"/>

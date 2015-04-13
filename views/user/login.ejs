@@ -1,9 +1,9 @@
 <form action="/user/handleLogin" method="POST" class="form-signin">
 	<h2 class="form-signin-heading">LoginForm</h2>
 
-	<input type="text" class="form-control" placeholder="your name" name="name">
+	<input type="text" class="form-control" placeholder="用户名" name="username">
 	<br>
-	<input type="password" class="form-control" placeholder="your password" name="password">
+	<input type="password" class="form-control" placeholder="密码" name="password">
 	<br>
 	<input type="submit" class="btn btn-lg btn-primary btn-block" value="Login"/>
 	<input type="hidden" name="_csrf" value="<%= _csrf %>"/>

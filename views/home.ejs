@@ -15,3 +15,27 @@
       }
     });*/
 	</script>
+
+  <% if(AV.User.current()){ %>
+                <li><a href="#">username</a></li>
+                <li><a href="/user/logout">logout</a></li>
+        <% }else{ %>
+                <li><a href="/user/login">login</a></li>
+        <% } %>
+
+
+        <% if(user){ %>
+                <li><a href="#"><%= user.username%></a></li>
+                <li><a href="/user/logout">logout</a></li>
+        <% }else{ %>
+                <li><a href="/user/login">login</a></li>
+        <% } %>
+
+
+
+        <% if(currentUser){ %>
+                <li><a href="#"><%= currentUser.username%></a></li>
+                <li><a href="/user/logout">logout</a></li>
+        <% }else{ %>
+                <li><a href="/user/login">login</a></li>
+        <% } %>
