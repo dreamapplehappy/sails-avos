@@ -15,7 +15,7 @@ module.exports = function(req, res, next) {
   // or if this is the last policy, the controller
   var currentUser = AV.User.current();
   if (currentUser) {
-    return next()+currentUser;
+    return next();
   }
 
   

@@ -9,7 +9,6 @@ var AV = require('avoscloud-sdk').AV;
 AV.initialize("b7747uhilejmtsyfgobccj8vhhrevwja5awh8lh3pt0fg5fr", "7sl5pumuxsly3tlbjifv2acjddilu7vzrwg67u8hqxd927hd");
 var Group = AV.Object.extend("Group");
 
-
 module.exports = {
 
 	index: function(req, res, next) {
@@ -27,6 +26,7 @@ module.exports = {
 	'logout': function(req, res){
 		AV.User.logOut();
 		var currentUser = AV.User.current();
+		req.session.username = null;
 		res.redirect("/user/");
 	},
 
@@ -36,7 +36,8 @@ module.exports = {
 		console.log(username+"---"+password);
 		AV.User.logIn(username, password, {
 			success: function(user) {
-				console.log("login success");
+				req.session.username = username;
+				console.log("login success\n"+req.session.username);
 				res.redirect('/user/show/' + username);
 			},
 			error: function(user, error) {
@@ -89,8 +90,7 @@ module.exports = {
 		var currentUser = AV.User.current();
 		if (currentUser) {
 			res.view({
-				user: currentUser.attributes,
-				currentUser:currentUser.attributes
+				user: currentUser.attributes
 			});
 		} 
 		else {
@@ -99,9 +99,7 @@ module.exports = {
 	},
 
 	edit: function(req, res, next) {
-		console.log("----------------");
 		console.log(req.session);
-		console.log("----------------");
 		res.view();
 	},
 
