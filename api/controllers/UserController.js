@@ -58,25 +58,26 @@ module.exports = {
 
 		group.set("name",co);
 		user.set("username",username);
-		user.set("mobilePhoneNumber",phone);
+		// user.set("mobilePhoneNumber",phone);
+		user.set("phone",phone);
 		user.set("email",email);
 		user.set("password",password);
 
 		group.save(null, {
 			success: function(group) {
 				console.log('New object created with objectId: ' + group.id);
+				console.log("-------------------------------------------");
 				user.set("groupId",group.id);
 				user.signUp(null, {
 					success: function(user) {
-						console.log(user);
 						group.set("parentGroupId",group.id);
 						group.set("rootGroupId",group.id);
 						group.set("userId",user.id);
 						group.save();
-						res.redirect("/user/show/"+user.username);
+						res.redirect("/user/show/"+user.attributes.username);
 					},
 					error: function(user, error) {
-						console.log("Error: " + error.code + " " + error.message);
+						console.log("User signUp Error: " + error.code + " " + error.message);
 					}
 				});
 			},
