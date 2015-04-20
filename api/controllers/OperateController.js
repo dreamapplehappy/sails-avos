@@ -11,6 +11,28 @@ var Group = AV.Object.extend("Group");
 var moment = require('moment');
 
 module.exports = {
+	'addNewUser': function(req, res, next){
+		var curUserName = req.session.username;
+		var right = req.body.rightValue;
+		var username = req.body.username;
+		var password = req.body.password;
+		var phone = req.body.phone;
+		var email = req.body.email;
+		
+		var query = new AV.Query(AV.User);
+		/*query.equalTo("username", curUserName);
+		query.find({
+			success: function(currentUser){
+				
+			},
+			error: function(error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});*/
+
+		res.redirect('/operate/addUser');
+
+	},
 
 	'addUser': function(req, res, next) {
 		var username = req.session.username;
@@ -27,8 +49,6 @@ module.exports = {
 						res.view({
 							users: users
 						});
-						console.log('----------------------');
-						console.log(users);
 					},
 					error: function(error) {
 						console.log("Error: " + error.code + " " + error.message);

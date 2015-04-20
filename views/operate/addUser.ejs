@@ -3,20 +3,48 @@
     <div class="row">
         <button class="btn btn-primary addUserBtn" id="addUserBtn">添加新用户</button>
     </div>
-    <form class="addUserForm">
-          <div class="form-group">
-            <label for="username">用户名：</label>
-            <input type="text" class="form-control" id="username" placeholder="dreamapple">
+    <form class="addUserForm" action="/operate/addNewUser" method="POST">
+    <div class="form-group">
+        <h3>添加新用户</h3>
+        <hr />
+        <div class="btn-group btn-group-right">
+          <button type="button" class="btn btn-success">添加用户的权限：</button>
+          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a class="right-menu">管理员</a></li>
+            <li class="divider"></li>
+            <li><a class="right-menu">职工</a></li>
+          </ul>
         </div>
-        <div class="form-group">
-            <label for="email">Email：</label>
-            <input type="email" class="form-control" id="email" placeholder="dreamapple@163.com">
-        </div>
-        <div class="form-group">
-            <button type="reset" class="btn btn-warning">重置</button>
-            <button type="submit" class="btn btn-primary">确认添加</button>
-            <button class="btn btn-danger" id="formClose">取消</button>
-        </div>
+        <input type="text" disabled="disabled" class="form-control rightValue" name="rightValue" placeholder="右边修改添加用户权限">
+    </div>
+    <div class="form-group">
+        <input type="hidden" class="form-control rightValue" name="rightValue"> 
+    </div>
+      <div class="form-group">
+        <label for="username">用户名：</label>
+        <input type="text" class="form-control" id="username" placeholder="dreamapple" name="username">
+    </div>
+      <div class="form-group">
+        <label for="password">密码：</label>
+        <input type="password" class="form-control" id="password" placeholder="默认密码为123456" name="password">
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone：</label>
+        <input type="text" class="form-control" id="phone" placeholder="137****5054" name="phone">
+    </div>
+    <div class="form-group">
+        <label for="email">Email：</label>
+        <input type="email" class="form-control" id="email" placeholder="dreamapple@163.com" name="email">
+    </div>
+    <div class="form-group">
+        <button type="reset" class="btn btn-warning">重置</button>
+        <button type="submit" class="btn btn-primary">确认添加</button>
+        <button class="btn btn-danger" id="formClose">取消</button>
+    </div>
     </form>
 </div>
 <hr />

@@ -2,8 +2,13 @@ footer{
 	text-align: center;
 }
 
-.form-inline input{
+.addUserForm input.rightValue{
 	width: auto !important;
+	float: left;
+	padding-right: 36px;
+}
+.btn-group-right{
+	padding-left: 10px;
 }
 .addUserForm{
 	display: none;
