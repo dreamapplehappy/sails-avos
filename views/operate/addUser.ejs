@@ -4,16 +4,16 @@
         <button class="btn btn-primary addUserBtn" id="addUserBtn">添加新用户</button>
     </div>
     <form class="addUserForm" action="/operate/addNewUser" method="POST">
-    <div class="form-group">
-        <h3>添加新用户</h3>
+    <h3>添加新用户</h3>
         <hr />
+    <div class="form-group">
         <div class="btn-group btn-group-right">
           <button type="button" class="btn btn-success">添加用户的权限：</button>
           <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
-          <ul class="dropdown-menu" role="menu">
+          <ul class="dropdown-menu right" role="menu">
             <li><a class="right-menu">管理员</a></li>
             <li class="divider"></li>
             <li><a class="right-menu">职工</a></li>
@@ -21,25 +21,67 @@
         </div>
         <input type="text" disabled="disabled" class="form-control rightValue" name="rightValue" placeholder="右边修改添加用户权限">
     </div>
+
     <div class="form-group">
-        <input type="hidden" class="form-control rightValue" name="rightValue"> 
+        <div class="btn-group btn-group-right">
+          <button type="button" class="btn btn-primary">添加用户的部门：</button>
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu dep" role="menu">
+            <li><a class="right-menu">XX部门</a></li>
+            <li class="divider"></li>
+            <li><a class="right-menu">XX部门</a></li>
+            <li class="divider"></li>
+            <li><a class="right-menu">XX部门</a></li>
+          </ul>
+        </div>
+        <input type="text" disabled="disabled" class="form-control depValue" name="depValue" placeholder="右边修改添加用户部门">
     </div>
-      <div class="form-group">
-        <label for="username">用户名：</label>
-        <input type="text" class="form-control" id="username" placeholder="dreamapple" name="username">
-    </div>
-      <div class="form-group">
-        <label for="password">密码：</label>
-        <input type="password" class="form-control" id="password" placeholder="默认密码为123456" name="password">
-    </div>
+
     <div class="form-group">
-        <label for="phone">Phone：</label>
-        <input type="text" class="form-control" id="phone" placeholder="137****5054" name="phone">
+        <input type="hidden" class="form-control rightValue" name="rightValue">
+        <input type="hidden" class="form-control depValue" name="depValue"> 
     </div>
+
     <div class="form-group">
-        <label for="email">Email：</label>
-        <input type="email" class="form-control" id="email" placeholder="dreamapple@163.com" name="email">
+        <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        </span>
+            <input type="text" id="username" name="username" class="form-control" placeholder="dreamapple" aria-describedby="basic-addon1">
+        </div>
     </div>
+
+    
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+            </span>
+            <input type="password" id="password" name="password" class="form-control" placeholder="默认密码为123456" aria-describedby="basic-addon2">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+            </span>
+            <input type="text" id="phone" name="phone" class="form-control" placeholder="137****5054" aria-describedby="basic-addon3">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+            </span>
+            <input type="email" id="email" name="email" class="form-control" placeholder="dreamapple@qq.com" aria-describedby="basic-addon4">
+        </div>
+    </div>
+    <hr />
     <div class="form-group">
         <button type="reset" class="btn btn-warning">重置</button>
         <button type="submit" class="btn btn-primary">确认添加</button>
@@ -62,7 +104,7 @@
         </tr>
     </thead>
     <tbody>
-        <% _.each(users, function(user) { %>
+        <% _.each(dataUsers, function(user) { %>
         <tr>
             <td>
                 <button class="btn btn-warning">修改</button>
