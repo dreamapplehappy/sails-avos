@@ -18,8 +18,4 @@ $(function(){
 		e.preventDefault();
 		$('.rightValue').val($(this).text());
 	});
-	$('ul.dep .right-menu').click(function(e){
-		e.preventDefault();
-		$('.depValue').val($(this).text());
-	});
 });

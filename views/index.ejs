@@ -5,6 +5,8 @@ Hello
 qwe
 <%  }%>
 
+<button class="btn btn-primary addUserBtn" id="addUserBtn">添加新用户</button>
+
 <form class="addUserForm" action="/operate/addNewUser" method="POST">
     <h3>添加新用户</h3>
         <hr />
@@ -32,14 +34,14 @@ qwe
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu dep" role="menu">
-            <li><a class="right-menu">XX部门</a></li>
+            <!-- <li><a class="right-menu">XX部门</a></li>
             <li class="divider"></li>
             <li><a class="right-menu">XX部门</a></li>
             <li class="divider"></li>
-            <li><a class="right-menu">XX部门</a></li>
+            <li><a class="right-menu">XX部门</a></li> -->
           </ul>
         </div>
-        <input type="text" disabled="disabled" class="form-control depValue" name="depValue" placeholder="右边修改添加用户部门">
+        <input type="text" disabled="disabled" class="form-control depName" name="depValue" placeholder="右边修改添加用户部门">
     </div>
 
     <div class="form-group">
@@ -92,6 +94,8 @@ qwe
     </form>
 
     
+    
+
     <div id='content'>
         <div id='jqxWidget'>
         </div>

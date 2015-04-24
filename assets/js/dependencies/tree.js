@@ -2,6 +2,9 @@ $(document).ready(function () {
 
 var userData = [];
 var groupData = {};
+var secGroupData = {};
+var groupId = [];
+var nimei;
 
 AV.initialize("b7747uhilejmtsyfgobccj8vhhrevwja5awh8lh3pt0fg5fr", "7sl5pumuxsly3tlbjifv2acjddilu7vzrwg67u8hqxd927hd");
 var Group = AV.Object.extend("Group");
@@ -15,11 +18,66 @@ query.find({
             groupData.id = group.attributes.userId;
             groupData.parentid = group.attributes.parentGroupId;
             groupData.text = group.attributes.name;
-            groupData.value = null;
+            groupData.value = "Hello World";
             userData.push(groupData);
-            alert(userData + "=====");
-            // alert(group.attributes.name+group.attributes.userId);
-            // alert(groupData.toString());
+            
+            var newQuery = new AV.Query(Group);
+            newQuery.equalTo("parentGroupId", groupData.id);
+
+            newQuery.find({
+                success: function(secGroups){
+                    for(var i = 0; i < secGroups.length; i++){
+                        var group = secGroups[i];
+                        secGroupData.id = group.attributes.userId;
+                        secGroupData.parentid = group.attributes.parentGroupId;
+                        secGroupData.text = group.attributes.name;
+                        secGroupData.value = "Hello World-->"+i;
+
+                        userData.push(secGroupData);
+
+                        secGroupData = {};
+                    }
+                    // alert(userData.length);
+                    /*var str;
+                    for(var i = 0; i < userData.length; i++){
+                        for(j in userData[i]){
+                            str+=userData[i][j]+'\n';
+                        }
+                    }
+                    alert(str);*/
+
+                    for(var i = 0; i < userData.length; i++){
+                        var ele = '<li><a class="right-menu" lid="'+ userData[i].parentid +'">'+ userData[i].text+ i +'</a></li>'
+                        $(ele).find('.right-menu').click(function(e){
+                            e.preventDefault();
+                            $('.depName').val($(this).text());
+                            $('.depValue').val($(this).attr('lid'));
+                        }).end().appendTo($("ul.dep"));
+                    }
+
+                    var source =
+                    {
+                        datatype: "json",
+                        datafields: [
+                        { name: 'id' },
+                        { name: 'parentid' },
+                        { name: 'text' },
+                        { name: 'value' }
+                        ],
+                        id: 'id',
+                        localdata: userData
+                    };
+
+                    var dataAdapter = new $.jqx.dataAdapter(source);
+                    dataAdapter.dataBind();
+                    var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
+                    $('#jqxWidget').jqxTree({ source: records, width: '300px'});
+
+                },
+                error: function(error){
+                    alert("Error: "+ error.code + " "+ error.message);
+                }
+            });
         }
     },
     error: function(error){
@@ -27,100 +85,9 @@ query.find({
     }
 });
 
-alert(userData);
-
-    var tryData = [{"id": "2",
-        "parentid": "1",
-        "text": "Hot Chocolate",
-        "value": "$2.3"}];
-
-    var data = [
-    { "id": "2",
-        "parentid": "1",
-        "text": "Hot Chocolate",
-        "value": "$2.3"
-    }, {
-        "id": "3",
-        "parentid": "1",
-        "text": "Peppermint Hot Chocolate",
-        "value": "$2.3"
-    }, {
-        "id": "4",
-        "parentid": "1",
-        "text": "Salted Caramel Hot Chocolate",
-        "value": "$2.3"
-    }, {
-        "id": "5",
-        "parentid": "1",
-        "text": "White Hot Chocolate",
-        "value": "$2.3"
-    }, {
-        "text": "Chocolate Beverage",
-        "id": "1",
-        "parentid": "-1",
-        "value": "$2.3"
-}, {
-        "id": "6",
-        "text": "Espresso Beverage",
-        "parentid": "-1",
-        "value": "$2.3"
-    }, {
-        "id": "7",
-        "parentid": "6",
-        "text": "Caffe Americano",
-        "value": "$2.3"
-        }, {
-        "id": "8",
-        "text": "Caffe Latte",
-        "parentid": "6",
-        "value": "$2.3"
-    }, {
-        "id": "9",
-        "text": "Caffe Mocha",
-        "parentid": "6",
-        "value": "$2.3"
-        }, {
-        "id": "10",
-        "text": "Cappuccino",
-        "parentid": "6",
-        "value": "$2.3"
-    }, {
-        "id": "11",
-        "text": "Pumpkin Spice Latte",
-        "parentid": "6",
-        "value": "$2.3"
-        }, {
-        "id": "12",
-        "text": "Frappuccino",
-        "parentid": "-1"
-    }, {
-        "id": "13",
-        "text": "Caffe Vanilla Frappuccino",
-        "parentid": "12",
-        "value": "$2.3"
-        }, {
-        "id": "15",
-        "text": "450 calories",
-        "parentid": "13",
-        "value": "$2.3"
-    }, {
-        "id": "16",
-        "text": "16g fat",
-        "parentid": "13",
-        "value": "$2.3"
-        }, {
-        "id": "17",
-        "text": "13g protein",
-        "parentid": "13",
-        "value": "$2.3"
-    }, {
-        "id": "14",
-        "text": "Caffe Vanilla Frappuccino Light",
-        "parentid": "12",
-        "value": "$2.3"
-        }]
     // prepare the data
-    var source =
+
+    /*var source =
     {
         datatype: "json",
         datafields: [
@@ -131,16 +98,21 @@ alert(userData);
         ],
         id: 'id',
         localdata: userData
-    };
+    };*/
+
     // create data adapter.
-    var dataAdapter = new $.jqx.dataAdapter(source);
+
+    /*var dataAdapter = new $.jqx.dataAdapter(source);*/
+
     // perform Data Binding.
-    dataAdapter.dataBind();
+
+    /*dataAdapter.dataBind();*/
+
     // get the tree items. The first parameter is the item's id. 
     //The second parameter is the parent item's id. The 'items' parameter represents 
     // the sub items collection name. Each jqxTree item has a 'label' property, 
     //but in the JSON data, we have a 'text' field. The last parameter 
     // specifies the mapping between the 'text' and 'label' fields.  
-    var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
-    $('#jqxWidget').jqxTree({ source: records, width: '300px'});
+    /*var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
+    $('#jqxWidget').jqxTree({ source: records, width: '300px'});*/
 });

@@ -9,10 +9,10 @@
  AV.initialize("b7747uhilejmtsyfgobccj8vhhrevwja5awh8lh3pt0fg5fr", "7sl5pumuxsly3tlbjifv2acjddilu7vzrwg67u8hqxd927hd");
  var Group = AV.Object.extend("Group");
  var moment = require('moment');
+ var name = null;
 
  module.exports = {
  	'addNewUser': function(req, res, next){
- 		var curUserName = req.session.username;
  		var right = req.body.rightValue;
  		if(right === "管理员"){
  			right = true;
@@ -27,19 +27,61 @@
  		var email = req.body.email;
 
  		console.log(right+'\n'+dep+'\n'+username+'\n'+password+'\n'+phone+'\n'+email);
+// right,email,groupId, password, username, phone
 
+		var curUserName = req.session.username;
  		var query = new AV.Query(AV.User);
-		/*query.equalTo("username", curUserName);
+		query.equalTo("username", curUserName);
 		query.find({
 			success: function(currentUser){
-				
+				var groupId = currentUser[0].attributes.groupId;
+				var userId = currentUser[0].id;
+				name = currentUser[0].attributes.username;
+				console.log(currentUser[0]);
+				console.log(name + "name");
+				console.log(groupId+"<-----groupId");
+				console.log(userId+"<-----userId");
+				var user = new AV.User();
+				user.set("right", right);
+				user.set("username", username);
+				user.set("password", password);
+				user.set("email", email);
+				user.set("phone", phone);
+				user.set("groupId", groupId);
+
+				user.signUp(null, {
+					success: function(user) {
+						console.log('-----------------user SignUP------------------');
+						console.log('Success');
+						console.log('----------------------------------------------');
+						var newUserId = user.id;
+						console.log(name);
+						var group = new Group();
+						group.set("name",name);
+						group.set("userId",newUserId);
+						group.set("parentGroupId",userId);
+						group.set("rootGroupId",groupId);
+
+						group.save(null, {
+							success: function(group) {
+								console.log("group store Success!");
+							},
+							error: function(gameScore, error) {
+								console.log('Failed to create new object, with error code: ' + error.message);
+							}
+						});
+					},
+					error: function(user, error) {
+						console.log("Error: " + error.code + " " + error.message);
+					}
+				});
 			},
 			error: function(error) {
 				console.log("Error: " + error.code + " " + error.message);
 			}
-		});*/
+		});
 
-res.redirect('/operate/addUser');
+		res.redirect('/operate/addUser');
 
 },
 

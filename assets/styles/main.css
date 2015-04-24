@@ -2,7 +2,7 @@ footer{
 	text-align: center;
 }
 
-.addUserForm input.rightValue, input.depValue{
+.addUserForm input.rightValue, input.depName{
 	width: auto !important;
 	float: left;
 	padding-right: 36px;
